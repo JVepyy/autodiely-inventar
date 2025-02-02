@@ -26,7 +26,7 @@ class CarController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string',
             'is_registered' => 'boolean',
-            'registration_number' => 'required_if:is_registered,1|integer'
+            'registration_number' => 'required_if:is_registered,1|string'
         ]);
 
         $car = Car::create($validatedData);
@@ -40,16 +40,16 @@ class CarController extends Controller
         $rules = [
             'name' => 'sometimes|required|string',
             'is_registered' => 'sometimes|boolean',
-            'registration_number' => 'sometimes|required|integer'
+            'registration_number' => 'sometimes|required|string'
         ];
 
         if ( $request->is_registered == 1) {
             if ( $car->registration_number!=null) {
-              $rules['registration_number'] = 'sometimes|required|integer';
+              $rules['registration_number'] = 'sometimes|required|string';
             }
             else
             {
-            $rules['registration_number'] = 'required|integer';
+            $rules['registration_number'] = 'required|string';
             }
         }
 

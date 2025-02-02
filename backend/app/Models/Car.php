@@ -10,7 +10,7 @@ class Car extends Model
 {
     /**
      * @property string name
-     * @property int registration_number
+     * @property string registration_number
      * @property int is_registered
      * @property Carbon $created_at
      * @property Carbon $updated_at
