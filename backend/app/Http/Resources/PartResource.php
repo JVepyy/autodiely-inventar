@@ -18,8 +18,8 @@ class PartResource extends JsonResource
         return [
             'id' => $this->resource->id,
             'name' => $this->resource->name,
-            'serial_number' => $this->resource->serial_number,
-            'car' => new CarResource($this->resource->car),
+            'serial_number' => $this->resource->serial_number ,
+            'car' => $this->resource->car ? new CarResource($this->resource->car) : $this->resource->car_id,
             'created_at' => $this->resource->created_at,
             'updated_at' => $this->resource->updated_at,
         ];

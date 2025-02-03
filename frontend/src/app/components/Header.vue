@@ -19,8 +19,7 @@
 }
 
 .container:hover .outline .rect {
-  transition: 999999s;
-  /* Must specify these values here as something *different* just so that the transition works properly */
+  transition: 450s;
   stroke-dashoffset: 1;
   stroke-dasharray: 0;
 }

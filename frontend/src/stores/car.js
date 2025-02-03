@@ -4,15 +4,24 @@ import axios from 'axios'
 export const useCarStore = defineStore('cars', {
   state: () => ({
     cars: [],
-    formData: null,
+    message: '',
+    error: '',
+    isLoading: false,
   }),
   actions: {
+    setSelectedCar(car) {
+      this.selectedCar = car;
+    },
     async fetchCars() {
+      this.isLoading = true;
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/v1/cars')
-        this.cars = response.data.data
+        const response = await axios.get('http://127.0.0.1:8000/api/v1/cars');
+        this.cars = response.data.data;
       } catch (error) {
         console.error('Chyba pri načítaní áut:', error);
+        this.error = 'Chyba pri načítaní áut.';
+      } finally {
+        this.isLoading = false;
       }
     },
     async deleteCar(id) {
@@ -26,24 +35,26 @@ export const useCarStore = defineStore('cars', {
       }
     },
     async submitForm(car) {
-
       if (!car.registration_number) delete car.registration_number
-
       try {
-        await axios.post('http://127.0.0.1:8000/api/v1/cars', car)
-        .then(response => {
-          this.message = 'Auto bolo úspešne pridané!'
-        })
+        if (this.selectedCar) {
+          await axios.put(`http://127.0.0.1:8000/api/v1/cars/${this.selectedCar.id}`, car);
+          this.message = 'Auto bolo úspešne aktualizované!';
+        } else {
+          await axios.post('http://127.0.0.1:8000/api/v1/cars', car);
+          this.message = 'Auto bolo úspešne pridané!';
+        }
+        this.fetchCars();
+        this.selectedCar = null;
       } catch (error) {
-        console.error('Chyba pri ukladaní auta:', error);
+        console.error('Chyba:', error);
+        this.error = 'Chyba pri ukladaní auta.';
       }
-
-      this.fetchCars()
-    }
+    },
   },
   getters: {
     getCars: state => state.cars,
     getFormData: state => state.formData,
+    getMessage: state => state.message,
   }
-  
-})
+});

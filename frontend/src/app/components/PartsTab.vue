@@ -1,46 +1,44 @@
 <template>
   <div class="container mt-4">
     <div class="card shadow-lg p-4 text-white bg-white bg-opacity-10 border-1 border-secondary ">
-      <h2 class="mb-4 text-center"> Zoznam áut</h2>
-
+      <h2 class="mb-4 text-center"> Zoznam dielov</h2>
 
       <ul class="list-group" >
-        <div v-if="$carStore.isLoading" class="text-center mt-3">
+        <div v-if="$partStore.isLoading" class="text-center mt-3">
           <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
         </div>
         <li
-          v-for="car in cars"
-          :key="car.id"
+          v-for="part in parts"
+          :key="part.id"
           class="list-group-item d-flex justify-content-between align-items-center border-1 border-secondary text-white"
           style="background-color: rgba(255, 255, 255, 0.1);">
           <div class="d-flex flex-column align-items-start">
-            <strong class="fs-5">{{ car.name }}</strong>
+            <strong class="fs-5">{{ part.name }}</strong>
             <small class="text-white p-1">
-              Evidenčné číslo: {{ car.registration_number || 'Neznáme' }}
+              Sériové číslo: {{ part.serial_number || 'Neznáme' }}
             </small>
             <span
-              class="badge mt-1r p-2"
-              :class="car.is_registered ? 'bg-success' : 'bg-secondary'"
-              style="width: 120px;">
-              {{ car.is_registered ? 'Registrované' : 'Nezaregistrované' }}
+              class="badge mt-1 p-2 w-max"
+              :class="typeof part.car === 'object' && part.car !== null ? 'bg-success' : 'bg-secondary'">
+              {{ typeof part.car === 'object' && part.car !== null ? `Priradené k autu: ${part.car.name}` : `Priradené k autu s ID: ${part.car}` }}
             </span>
           </div>
           <div class="d-flex flex-row justify-content-end gap-2 icon-link">
             <button
               class="btn btn-primary btn-sm px-3 shadow-sm border-0.125rem border-secondary"
-              @click="$carStore.setSelectedCar(car)">
-            Upraviť
+              @click="$partStore.setSelectedPart(part)">
+              Upraviť
             </button>
-            <button class="btn btn-danger btn-sm px-3 shadow-sm" @click="$carStore.deleteCar(car.id)">
+            <button class="btn btn-danger btn-sm px-3 shadow-sm" @click="$partStore.deletePart(part.id)">
               Vymazať
             </button>
-        </div>
+          </div>
         </li>
       </ul>
 
-      <p v-if="message" class="alert alert-info mt-3">{{ $carStore.message }}</p>
+      <p v-if="message" class="alert alert-info mt-3">{{ $partStore.message }}</p>
     </div>
   </div>
 </template>
@@ -49,15 +47,15 @@
 
 export default {
   computed: {
-    cars() {
-      return this.$carStore.cars
+    parts() {
+      return this.$partStore.parts
     },
     message() {
-      return this.$carStore.message;
+      return this.$partStore.message;
     }
   },
   mounted() {
-    this.$carStore.fetchCars()
+    this.$partStore.fetchParts()
   },
 };
 </script>

@@ -1,53 +1,87 @@
 <template>
   <div class="card p-4 border-secondary bg-white bg-opacity-10" style="width: 382px; height: 390px;">
-    <h2 class="text-white mb-4">Vytvoriť nové auto</h2>
-
-    <form @submit.prevent="submitForm(car)">
+    <h2 class="text-white mb-4">
+      {{ $carStore.selectedCar ? 'Upraviť auto' : 'Vytvoriť auto' }}
+    </h2>
+    <form @submit.prevent="submitForm">
       <div class="mb-2">
         <label for="carName" class="form-label text-white">Názov auta</label>
-        <input type="text"  class="form-control  bg-transparent border border-secondary text-white" v-model="car.name" required>
+        <input
+          type="text"
+          class="form-control bg-transparent border border-secondary text-white"
+          v-model="formData.name"
+          required>
       </div>
-
       <div class="mb-3">
         <label class="form-label text-white mt-2">Evidenčné číslo</label>
-        <input type="text" class="form-control bg-transparent border border-secondary text-white" v-model="car.registration_number" :required="car.is_registered">
+        <input
+          type="text"
+          class="form-control bg-transparent border border-secondary text-white"
+          v-model="formData.registration_number"
+          :required="formData.is_registered">
       </div>
-
       <div class="mb-3 d-flex flex-row justify-content-center align-items-center">
-        <input type="checkbox" class="form-check-input me-2" v-model="car.is_registered">
+        <input
+          type="checkbox"
+          class="form-check-input me-2"
+          v-model="formData.is_registered">
         <label class="form-check-label text-white">Registrované</label>
       </div>
-
-      <button type="submit" class="btn btn-primary border-0.125rem border-secondary" style=" background-color: #bef6;  ">Odoslať</button>
+      <button type="submit" class="btn btn-primary border-0.125rem border-secondary">
+        {{ $carStore.selectedCar ? 'Aktualizovať' : 'Odoslať' }}
+      </button>
     </form>
-
-    <p v-if="message" class="text-white mt-3">{{ message }}</p>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   name: 'CreateCarForm',
   data() {
     return {
-      car: {
+      formData: {
         name: '',
         registration_number: '',
-        is_registered: false
+        is_registered: false,
       },
-      message: ''
-    }
+    };
+  },
+  watch: {
+    '$carStore.selectedCar': {
+      handler(newCar) {
+        if (newCar) {
+          this.formData = {
+            ...newCar,
+            is_registered: !!newCar.is_registered,
+          };
+        } else {
+          this.resetForm();
+        }
+      },
+      immediate: true,
+    },
   },
   methods: {
-  submitForm(car) {
-    this.$carStore.submitForm(car)
-    this.car.name = ''
-    this.car.registration_number = ''
-    this.car.is_registered = false
-  }
-}
-
+    submitForm() {
+      this.$carStore.submitForm(this.formData);
+      this.resetForm();
+    },
+    resetForm() {
+      this.formData = {
+        name: '',
+        registration_number: '',
+        is_registered: false,
+      };
+    },
+  },
 };
 </script>
+
+<style scoped>
+.btn-primary {
+  background-color: rgba(12, 7, 48, 0.5);
+}
+.btn-primary:hover {
+  background-color:  rgba(12,7,48,1);
+}
+</style>

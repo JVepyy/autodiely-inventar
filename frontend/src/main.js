@@ -15,5 +15,8 @@ app.use(router)
 import { useCarStore } from './stores/car'
 app.config.globalProperties.$carStore = useCarStore()
 
+import { usePartStore } from './stores/part'
+app.config.globalProperties.$partStore = usePartStore()
+
 app.mount('#app')
 
