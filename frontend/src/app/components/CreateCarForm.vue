@@ -2,7 +2,7 @@
   <div class="card p-4 border-secondary bg-white bg-opacity-10" style="width: 382px; height: 390px;">
     <h2 class="text-white mb-4">Vytvoriť nové auto</h2>
 
-    <form @submit.prevent="submitForm">
+    <form @submit.prevent="submitForm(car)">
       <div class="mb-2">
         <label for="carName" class="form-label text-white">Názov auta</label>
         <input type="text"  class="form-control  bg-transparent border border-secondary text-white" v-model="car.name" required>
@@ -38,21 +38,16 @@ export default {
         is_registered: false
       },
       message: ''
-    };
+    }
   },
   methods: {
-    async submitForm() {
-        const carData = { ...this.car };
-
-      if (!this.car.registration_number) {
-        delete carData.registration_number;
-      }
-
-      const response = await axios.post('http://127.0.0.1:8000/api/v1/cars', carData);
-        console.log('Server response:', response.data);
-        console.log('Vytvorené auto:', this.car);
-      this.car = { name: '', registration_number: '', is_registered: false };
-    }
+  submitForm(car) {
+    this.$carStore.submitForm(car)
+    this.car.name = ''
+    this.car.registration_number = ''
+    this.car.is_registered = false
   }
+}
+
 };
 </script>

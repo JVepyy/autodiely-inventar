@@ -21,10 +21,14 @@
               {{ car.is_registered ? 'Registrované' : 'Nezaregistrované' }}
             </span>
           </div>
-
-          <button class="btn btn-danger btn-sm px-3 shadow-sm" @click="deleteCar(car.id)">
-            Vymazať
-          </button>
+          <div class="d-flex flex-row justify-content-end gap-2">
+            <button class="btn btn-info btn-sm px-3 shadow-sm">
+              Upraviť
+            </button>
+            <button class="btn btn-danger btn-sm px-3 shadow-sm" @click="$carStore.deleteCar(car.id)">
+              Vymazať
+            </button>
+        </div>
         </li>
       </ul>
 
@@ -39,33 +43,23 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      cars: [],
       message: '',
-    };
+    }
   },
-  methods: {
-    async fetchCars() {
-      try {
-        const response = await axios.get('http://127.0.0.1:8000/api/v1/cars');
-        this.cars = response.data.data;
-        console.log('Načítané autá:', this.cars);
-      } catch (error) {
-        console.error('Chyba pri načítaní áut:', error);
-      }
-    },
-    async deleteCar(id) {
-      try {
-        await axios.delete(`http://127.0.0.1:8000/api/v1/cars/${id}`);
-        this.cars = this.cars.filter(car => car.id !== id);
-        this.message = 'Auto bolo úspešne vymazané!';
-      } catch (error) {
-        console.error('Chyba pri mazaní auta:', error);
-        this.message = 'Chyba pri mazaní auta.';
-      }
-    },
+  computed: {
+    cars() {
+      return this.$carStore.cars
+    }
   },
   mounted() {
-    this.fetchCars();
+    this.$carStore.fetchCars()
   },
 };
 </script>
+
+<style scoped>
+.list-group {
+  height: 50vh !important;
+  overflow-y: scroll;
+}
+</style>
