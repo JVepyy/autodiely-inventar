@@ -10,7 +10,12 @@ export const usePartStore = defineStore('parts', {
   }),
   actions: {
     setSelectedPart(part) {
-      this.selectedPart = part;
+      this.selectedPart = { ...part };
+      if (typeof part.car === 'object' && part.car !== null) {
+        this.selectedPart.car_id = part.car.id;
+      } else {
+        this.selectedPart.car_id = part.car;
+      }
     },
     async fetchParts() {
       this.isLoading = true;
@@ -40,6 +45,7 @@ export const usePartStore = defineStore('parts', {
           await axios.put(`http://127.0.0.1:8000/api/v1/parts/${this.selectedPart.id}`, part);
           this.message = 'Diel bol úspešne aktualizovaný!';
         } else {
+          if (!part.car_id) delete part.car_id
           await axios.post('http://127.0.0.1:8000/api/v1/parts', part);
           this.message = 'Diel bol úspešne pridaný!';
         }
