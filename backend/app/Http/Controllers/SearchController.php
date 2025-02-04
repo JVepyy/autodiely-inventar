@@ -8,6 +8,7 @@ use App\Models\Car;
 use App\Models\Part;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+
 class SearchController extends Controller
 {
     public function search(Request $request) : JsonResponse
