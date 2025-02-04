@@ -1,5 +1,5 @@
 <template>
-  <div class="container d-flex vh-100 align-items-center  text-center">
+  <div class="container d-flex vh-100 align-items-center text-center">
 
       <div class="col-4">
         <CreateCarForm/>

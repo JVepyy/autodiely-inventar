@@ -15,7 +15,10 @@
           class="list-group-item d-flex justify-content-between align-items-center border-1 border-secondary text-white"
           style="background-color: rgba(255, 255, 255, 0.1);">
           <div class="d-flex flex-column align-items-start">
-            <strong class="fs-5">{{ part.name }}</strong>
+            <div class="d-flex flex-row gap-2">
+              <strong class="fs-5 ">{{ part.name }}</strong>
+              <small class="text-white p-1 ml-3">ID ({{ part.id }})</small>
+            </div>
             <small class="text-white p-1">
               Sériové číslo: {{ part.serial_number || 'Neznáme' }}
             </small>

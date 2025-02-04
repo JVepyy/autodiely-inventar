@@ -1,12 +1,24 @@
 <template>
-  <div class="vh-100 d-flex align-items-center justify-content-start text-center text-white">
-    <h1 class="text-white">Filter</h1>
+  <div class="container d-flex flex-column vh-100 text-center" style="margin-top: 5%">
+      <FilterSearchbar  />
+    <div class="d-flex flex-row justify-content-center">
+      <FilterCarTab />
+      <FilterPartTab />
+    </div>
   </div>
 </template>
-
 <script>
+import FilterSearchbar from '@/app/components/FilterSearchbar.vue'
+import FilterCarTab from '@/app/components/FilterCarTab.vue'
+import FilterPartTab from '@/app/components/FilterPartTab.vue'
+
 export default {
-  name: 'AppFilter'
+  name: 'AppFilter',
+  components: { FilterPartTab, FilterSearchbar, FilterCarTab },
 }
 </script>
 
+
+<style scoped>
+
+</style>
