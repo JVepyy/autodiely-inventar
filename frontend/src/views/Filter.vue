@@ -1,5 +1,5 @@
 <template>
-  <div class="container d-flex flex-column vh-100 text-center" style="margin-top: 5%">
+  <div class="container d-flex flex-column vh-100 overflow-hidden text-center" style="margin-top: 5%">
       <FilterSearchbar  />
     <div class="d-flex flex-row justify-content-center">
       <FilterCarTab />

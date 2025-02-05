@@ -18,33 +18,28 @@
 </template>
 
 <script>
-import { useFilterStore } from '@/stores/filter';
 
 export default {
   data() {
     return {
       query: '',
-    };
+    }
   },
   computed: {
     searchResults() {
-      return this.filterStore.getSearchResults;
+      return this.$filterStore.getSearchResults
     },
     isLoading() {
-      return this.filterStore.getIsLoading;
+      return this.$filterStore.getIsLoading
     },
   },
 
   methods: {
     onSearch() {
-        this.filterStore.search(this.query);
+        this.$filterStore.search(this.query)
     },
   },
-  setup() {
-    const filterStore = useFilterStore();
-    return { filterStore };
-  },
-};
+}
 </script>
 
 <style scoped>

@@ -18,5 +18,9 @@ app.config.globalProperties.$carStore = useCarStore()
 import { usePartStore } from './stores/part'
 app.config.globalProperties.$partStore = usePartStore()
 
+
+import { useFilterStore } from './stores/filter'
+app.config.globalProperties.$filterStore = useFilterStore()
+
 app.mount('#app')
 

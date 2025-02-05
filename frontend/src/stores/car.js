@@ -1,6 +1,10 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 
+const $axios = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL
+})
+
 export const useCarStore = defineStore('cars', {
   state: () => ({
     cars: [],
@@ -15,7 +19,7 @@ export const useCarStore = defineStore('cars', {
     async fetchCars() {
       this.isLoading = true;
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/v1/cars');
+        const response = await $axios.get('/api/v1/cars');
         this.cars = response.data.data;
       } catch (error) {
         console.error('Chyba pri načítaní áut:', error);
@@ -26,7 +30,7 @@ export const useCarStore = defineStore('cars', {
     },
     async deleteCar(id) {
       try {
-        await axios.delete(`http://127.0.0.1:8000/api/v1/cars/${id}`);
+        await $axios.delete(`/api/v1/cars/${id}`);
         this.cars = this.cars.filter(car => car.id !== id);
         this.message = 'Auto bolo úspešne vymazané!';
       } catch (error) {
@@ -38,10 +42,10 @@ export const useCarStore = defineStore('cars', {
       if (!car.registration_number) delete car.registration_number
       try {
         if (this.selectedCar) {
-          await axios.put(`http://127.0.0.1:8000/api/v1/cars/${this.selectedCar.id}`, car);
+          await $axios.put(`/api/v1/cars/${this.selectedCar.id}`, car);
           this.message = 'Auto bolo úspešne aktualizované!';
         } else {
-          await axios.post('http://127.0.0.1:8000/api/v1/cars', car);
+          await $axios.post('/api/v1/cars', car);
           this.message = 'Auto bolo úspešne pridané!';
         }
         this.fetchCars();

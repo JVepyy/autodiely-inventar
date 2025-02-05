@@ -28,6 +28,12 @@
   </div>
 </template>
 
+
+<script>
+export default {
+};
+</script>
+
 <style scoped>
 .outline {
   position: absolute;
@@ -104,8 +110,3 @@
 </style>
 
 
-<script>
-export default {
-  name: 'AppHeader'
-}
-</script>

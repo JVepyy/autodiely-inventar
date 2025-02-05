@@ -38,36 +38,31 @@
 </template>
 
 <script>
-import { useFilterStore } from '@/stores/filter';
 
 export default {
   computed: {
     cars() {
-      return this.filterStore.getSearchResults.cars;
+      return this.$filterStore.getSearchResults.cars;
     },
     isLoading() {
-      return this.filterStore.getIsLoading;
+      return this.$filterStore.getIsLoading;
     },
     message() {
-      return this.filterStore.getMessage;
+      return this.$filterStore.getMessage;
     },
     error() {
-      return this.filterStore.getError;
+      return this.$filterStore.getError;
     },
   },
   mounted() {
-    this.filterStore.search('');
-  },
-  setup() {
-    const filterStore = useFilterStore();
-    return { filterStore };
+    this.$filterStore.search('');
   },
 };
 </script>
 
 <style scoped>
 .list-group {
-  height: 50vh !important;
+  height: 45vh !important;
   overflow-y: scroll;
 }
 

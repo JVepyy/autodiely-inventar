@@ -1,6 +1,10 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
 
+const $axios = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL
+})
+
 export const useFilterStore = defineStore('filter', {
   state: () => ({
     searchResults: {
@@ -13,7 +17,7 @@ export const useFilterStore = defineStore('filter', {
     async search(query) {
       this.isLoading = true;
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/v1/search?query=${query}`);
+        const response = await $axios.get(`/api/v1/search?query=${query}`);
         this.searchResults = response.data;
       } catch {
         this.error = 'Something went wrong';

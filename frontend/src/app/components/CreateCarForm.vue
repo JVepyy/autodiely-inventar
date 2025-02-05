@@ -36,7 +36,6 @@
 
 <script>
 export default {
-  name: 'CreateCarForm',
   data() {
     return {
       formData: {
